@@ -9,6 +9,9 @@
 </body>
 
 <template name="player">
+  <audio id="audio" src="{{currentSong}}"></audio>
   <p>Currently playing: {{currentSong}}</p>
-  <button>Skip</button>
+  <button id="pause">Pause</button>
+  <button id="play">Play</button>
+  <button id="loadnext">Load next</button>
 </template>

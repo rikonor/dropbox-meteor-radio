@@ -24,16 +24,23 @@ if (Meteor.isClient) {
     });
   }, 2000);
 
-  // Session.setDefault("currentSong", songsList[0] || undefined)
-
   Template.player.helpers({
     currentSong: function () {
       return Session.get("currentSong") || "N/A";
+    },
+    playerState: function() {
+      return Session.get("playerState") || "";
     }
   });
 
   Template.player.events({
-    'click button': function () {
+    'click button#pause': function () {
+      document.getElementById('audio').pause();
+    },
+    'click button#play': function () {
+      document.getElementById('audio').play();
+    },
+    'click button#loadnext': function () {
       Session.set("currentSong", SongsUtil.getRandomSong(songsList));
     }
   });
