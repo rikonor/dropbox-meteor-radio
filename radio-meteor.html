@@ -3,12 +3,12 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Welcome to Radio Augury!</h1>
 
-  {{> hello}}
+  {{> player}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="player">
+  <p>Currently playing: {{currentSong}}</p>
+  <button>Skip</button>
 </template>
