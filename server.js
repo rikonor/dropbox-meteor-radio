@@ -1,6 +1,7 @@
 // Server
 
 if (Meteor.isServer) {
+
   var songsList = [];
 
   Meteor.methods({

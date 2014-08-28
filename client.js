@@ -25,6 +25,17 @@ if (Meteor.isClient) {
   }, 2000);
 
   Template.player.helpers({
+    songName: function () {
+      if (!Session.get("currentSong")) {
+        return "N/A";
+      }
+      else {
+        var pathParts = Session.get("currentSong").split("/"),
+            path = pathParts[pathParts.length-1],
+            name = decodeURI(path);
+        return name;
+      }
+    },
     currentSong: function () {
       return Session.get("currentSong") || "N/A";
     },
