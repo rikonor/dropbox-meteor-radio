@@ -5,25 +5,16 @@ var SongsUtil = {
       callback(null, data);
     });  
   },
-  getRandomSong: function(songsList) {
-    var i = Math.floor(Math.random() * songsList.length);
-    return songsList[i];
+  getRandomSong: function() {
+    var i = Math.floor(Math.random() * Songs.find().count());
+    return Songs.find().fetch()[i];
   }
 };
 
 // Client
 
 if (Meteor.isClient) {
-  var songsList = [];
-
-  setTimeout(function() {
-    SongsUtil.getAllSongs(function(err, data) {
-      if (err) { return console.log(err); }
-      if (!data || data.length == 0) { return console.log("No songs found."); }
-      songsList = data;
-    });
-  }, 2000);
-
+  
   Template.player.helpers({
     songName: function () {
       if (!Session.get("currentSong")) {
@@ -52,7 +43,7 @@ if (Meteor.isClient) {
       document.getElementById('audio').play();
     },
     'click button#loadnext': function () {
-      Session.set("currentSong", SongsUtil.getRandomSong(songsList));
+      Session.set("currentSong", SongsUtil.getRandomSong().path);
     }
   });
 }
