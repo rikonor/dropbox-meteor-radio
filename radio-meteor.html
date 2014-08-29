@@ -3,15 +3,36 @@
 </head>
 
 <body>
-  <h1>Welcome to Radio Augury!</h1>
-
+  {{> navbar }}
   {{> player}}
+  {{> chat }}
+  {{> userlist }}
 </body>
 
+<template name="navbar">
+  <div id="navbar">
+    <div id="brand">Augury Radio</div>
+    <img id="logo" src="/logo.png">
+    <div id="login">Login</div>
+  </div>
+</template>
+
 <template name="player">
-  <audio id="audio" src="{{currentSong}}"></audio>
-  <p>Currently playing: {{songName}}</p>
-  <button id="pause">Pause</button>
-  <button id="play">Play</button>
-  <button id="loadnext">Load next</button>
+  <div id="player">
+    <audio id="audio" src="{{currentSong}}" hidden autoplay></audio>
+    <span id="current">Currently playing: {{songName}}</span>
+    <div id="controls">
+      <button id="pause">Pause</button>
+      <button id="play">Play</button>
+      <button id="loadnext">Load next</button>
+    </div>
+  </div>
+</template>
+
+<template name="userlist">
+  <div id="userlist"></div>
+</template>
+
+<template name="chat">
+  <div id="chat"></div>
 </template>
