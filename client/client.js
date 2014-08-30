@@ -1,31 +1,34 @@
+Meteor.subscribe('songs');
+
+Meteor.startup(function() {
+  player = new Player(document.getElementById('audio'));
+
+  loadNext = function() {
+    Session.set("currentSrc", player.getRandomSong().path);
+  };
+  setTimeout(loadNext, 1000);
+});
+
 Template.player.helpers({
-  songName: function () {
-    if (!Session.get("currentSong")) {
-      return "N/A";
-    }
-    else {
-      var pathParts = Session.get("currentSong").split("/"),
-          path = pathParts[pathParts.length-1],
-          name = decodeURI(path);
-      return name;
-    }
+  currentSrc: function() {
+    return Session.get("currentSrc");
   },
-  currentSong: function () {
-    return Session.get("currentSong") || "N/A";
-  },
-  playerState: function() {
-    return Session.get("playerState") || "";
+  currentSrcName: function() {
+    return SongUtils.getSongName(Session.get("currentSrc"));
   }
 });
 
 Template.player.events({
-  'click button#pause': function () {
-    document.getElementById('audio').pause();
+  'click button#pause': function() {
+    player.pause();
   },
-  'click button#play': function () {
-    document.getElementById('audio').play();
+  'click button#play': function() {
+    player.play();
   },
-  'click button#loadnext': function () {
-    Session.set("currentSong", SongsUtil.getRandomSong().path);
+  'click button#loadnext': function() {
+    loadNext();
+  },
+  'change input#volume': function(e) {
+    player.setVolume(e.target.value / 100);
   }
 });

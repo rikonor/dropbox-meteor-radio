@@ -4,35 +4,32 @@
 
 <body>
   {{> navbar }}
-  {{> player}}
-  {{> chat }}
-  {{> userlist }}
+  {{> player }}
 </body>
 
 <template name="navbar">
-  <div id="navbar">
-    <div id="brand">Augury Radio</div>
-    <img id="logo" src="/logo.png">
-    <div id="login">Login</div>
-  </div>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <img class="navbar-brand pull-left" src="/logo.png" style="max-width: 100px;"/>
+        <a class="navbar-brand" rel="home" href="#" title="Augury Radio">Augury Radio</a>
+      </div>
+    </div><!-- /.container-fluid -->
+  </nav>
 </template>
 
 <template name="player">
-  <div id="player">
-    <audio id="audio" src="{{currentSong}}" hidden autoplay></audio>
-    <span id="current">Currently playing: {{songName}}</span>
-    <div id="controls">
-      <button id="pause">Pause</button>
-      <button id="play">Play</button>
-      <button id="loadnext">Load next</button>
+  <div class="well">
+    <div id="player">
+      <audio id="audio" src="{{currentSrc}}" hidden autoplay></audio>
+      <p id="current">Currently playing: {{currentSrcName}}</p>
+      <div id="controls">
+        <!-- <button id="pause">Pause</button>
+        <button id="play">Play</button>
+        <button id="loadnext">Load next</button> -->
+        <input id="volume" type="range" style="max-width: 25%"/>
+      </div>
     </div>
   </div>
-</template>
-
-<template name="userlist">
-  <div id="userlist"></div>
-</template>
-
-<template name="chat">
-  <div id="chat"></div>
 </template>
