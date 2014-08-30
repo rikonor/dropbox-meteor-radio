@@ -1,4 +1,6 @@
-Meteor.subscribe('songs');
+Meteor.subscribe('songs', function() {
+    Session.set('songs_loaded', true);
+});
 
 Meteor.startup(function() {
   player = new Player(document.getElementById('audio'));
@@ -6,7 +8,21 @@ Meteor.startup(function() {
   loadNext = function() {
     Session.set("currentSrc", player.getRandomSong().path);
   };
-  setTimeout(loadNext, 1000);
+
+  var checkLoadedSongs = function() {
+    console.log("Checking if songs collection is ready...");
+    if (!Session.get('songs_loaded')) {
+        console.log("Still not ready, checking again in 1s.");
+        Meteor.setTimeout(checkLoadedSongs, 1000);
+    }
+    else {
+        console.log("Songs collection ready, loading next song.");
+        loadNext();
+    }
+  };
+  checkLoadedSongs();
+
+  player.audioElement.onended = loadNext;
 });
 
 Template.player.helpers({
@@ -19,15 +35,6 @@ Template.player.helpers({
 });
 
 Template.player.events({
-  'click button#pause': function() {
-    player.pause();
-  },
-  'click button#play': function() {
-    player.play();
-  },
-  'click button#loadnext': function() {
-    loadNext();
-  },
   'change input#volume': function(e) {
     player.setVolume(e.target.value / 100);
   }
