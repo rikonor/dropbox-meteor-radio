@@ -17,7 +17,7 @@ Meteor.startup(function() {
     }
     else {
         console.log("Songs collection ready, loading next song.");
-        loadNext();
+        Meteor.setTimeout(loadNext, 500);
     }
   };
   checkLoadedSongs();

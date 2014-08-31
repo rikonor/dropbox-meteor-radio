@@ -5,6 +5,7 @@
 <body>
   {{> navbar }}
   {{> player }}
+  {{> noisywavebg }}
 </body>
 
 <template name="navbar">
@@ -31,5 +32,13 @@
         <input id="volume" type="range" style="max-width: 25%"/>
       </div>
     </div>
+  </div>
+</template>
+
+<template name="noisywavebg">
+  <div id="noisywavebg-wrapper">
+    <canvas id="seen-canvas"></canvas>
+    <script src="seen.min.js"></script>
+    <script src="noisywavebg.js"></script>
   </div>
 </template>
