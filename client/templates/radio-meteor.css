@@ -1,1 +1,22 @@
 /* CSS declarations go here */
+
+body {
+	position: relative;
+}
+
+.navbar, .well {
+	opacity: 0.75;
+}
+
+#noisywavebg {
+	position: absolute;
+	z-index: -1;
+}
+
+canvas {
+	display: block;
+}
+
+#container {
+	padding-top: 20px;
+}
