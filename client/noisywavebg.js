@@ -7,7 +7,7 @@ Template.noisywavebg.rendered = function() {
 		var width               = window.innerWidth;
 		var height              = window.innerHeight;
 		var equilateralAltitude = Math.sqrt(3.0) / 2.0;
-		var triangleScale       = 70;
+		var triangleScale       = 120;
 		var patch_width         = width * 1.5;
 		var patch_height        = height * 1.5;
 

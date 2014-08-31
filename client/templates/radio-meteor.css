@@ -4,10 +4,15 @@ body {
 	position: relative;
 }
 
+#outer-container {
+	padding-top: 20px;
+}
+
 .navbar, .well {
 	opacity: 0.75;
 }
 
+/* SEEN.JS */
 #noisywavebg {
 	position: absolute;
 	z-index: -1;
@@ -15,8 +20,4 @@ body {
 
 canvas {
 	display: block;
-}
-
-#container {
-	padding-top: 20px;
 }
