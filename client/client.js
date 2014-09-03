@@ -114,6 +114,9 @@ Template.loginButtons.events({
 });
 
 Template.loginWindow.helpers({
+  showLoginWindow: function() {
+    return Session.get("showLoginWindow");
+  },
   showLogin: function() {
     return Session.get("showLoginWindow") === "login";
   },

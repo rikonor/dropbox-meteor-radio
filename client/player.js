@@ -22,7 +22,7 @@ Player = function(audioElement) {
 
   // default settings
   this.audioElement.currentSrc = null;
-  this.audioElement.volume = 0.5;
+  this.audioElement.volume = 0.2;
   this.audioElement.muted = false;
 
 };
