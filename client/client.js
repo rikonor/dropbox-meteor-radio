@@ -6,7 +6,7 @@ Meteor.subscribe('songs', function() {
     Session.set('songs_loaded', true);
 });
 
-Meteor.subscribe('userData');
+Meteor.subscribe('users');
 
 //------------
 //-- client --
@@ -55,9 +55,18 @@ Meteor.autorun(function() {
 //-- player --
 //------------
 
+var setUserState = function(currentSrc) {
+
+};
+
 Template.player.events({
   'change input#volume': function(e) {
     player.setVolume(e.target.value / 100);
+  },
+  'play audio': function(e) {
+    var currentSrc = player.getCurrentSrc();
+    Meteor.users.update({_id: Meteor.userId()}, {$set:{"state.currentsrc": currentSrc}});
+    console.log("Now listening to ", SongUtils.getSongName(currentSrc));
   }
 });
 

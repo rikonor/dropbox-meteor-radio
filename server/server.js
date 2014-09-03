@@ -6,8 +6,14 @@ Meteor.publish('songs', function() {
   return Songs.find({});
 });
 
-Meteor.publish("userData", function () {
+Meteor.publish("users", function () {
   return Meteor.users.find({});
+});
+
+Meteor.users.allow({
+  update: function(userId, doc, fields, modifier) {
+    return doc._id === userId;
+  }
 });
 
 //------------
