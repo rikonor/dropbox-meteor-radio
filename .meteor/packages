@@ -8,4 +8,5 @@ sewdn:dropbox
 mrt:async
 mizzao:bootstrap-3
 coffeescript
-
+accounts-base
+accounts-password

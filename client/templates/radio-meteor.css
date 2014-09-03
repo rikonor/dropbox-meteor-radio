@@ -12,6 +12,40 @@ body {
 	opacity: 0.75;
 }
 
+.navbar-header {
+	width: 100%;
+}
+
+/* login */
+
+#loginButtons {
+	float: right;
+}
+
+#loginButton,
+#logoutButton,
+#registerButton {
+	cursor: pointer;
+}
+
+#loginWindow {
+	position: relative;
+	width: 50%;
+	margin: auto;
+}
+
+/* player */
+
+#player {
+
+}
+
+/* user-list */
+#user-list {
+	width: 30%;
+	float: right;
+}
+
 /* SEEN.JS */
 #noisywavebg {
 	position: absolute;

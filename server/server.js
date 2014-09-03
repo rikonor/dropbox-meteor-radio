@@ -1,7 +1,18 @@
-// Publish
+//-----------------
+//-- Collections --
+//-----------------
+
 Meteor.publish('songs', function() {
   return Songs.find({});
 });
+
+Meteor.publish("userData", function () {
+  return Meteor.users.find({});
+});
+
+//------------
+//-- Server --
+//------------
 
 var insertSongs = function(paths) {
   for (var i = 0; i < paths.length; i++) {
@@ -13,7 +24,7 @@ var updateSongsCollection = function() {
   console.log("Updating the songs collection.");
 
   Songs.remove({});
-  
+
   var client = DropboxUtils.createClient();
   DropboxUtils.getRootContent(client, Meteor.bindEnvironment(function(err, data) {
     if (err) { return console.log(err); }
