@@ -3,7 +3,7 @@
 <template name="loginButtons">
   <div class="navbar-brand" id="loginButtons">
     {{#if currentUser}}
-      <span>{{#with currentUser}}{{ email }}{{/with}}</span>
+      <span>{{#with currentUser}}{{username}}{{/with}}</span>
       / <a id="logoutButton">Logout</a>
     {{else}}
       <a id="registerButton">Create User</a>

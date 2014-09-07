@@ -43,9 +43,9 @@
 
 <template name="user">
   <div class="user">
-    <span class="user-online">{{#if online}}&#9658;{{else}}&#9632;{{/if}}</span>
     <span class="user-username">{{username}}</span>
-     - <span class="user-current">{{listeningTo}}</span>
+    <span class="user-online">{{#if online}}&#9658;{{else}}&#9632;{{/if}}</span>
+    {{#if online}}<span class="user-current">{{listeningTo}}</span>{{/if}}
   </div>
 </template>
 

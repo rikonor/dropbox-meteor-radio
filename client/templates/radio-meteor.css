@@ -35,6 +35,9 @@ body {
 	max-width: 480px;
 	margin: auto;
 
+	background-color: white;
+	opacity: 0.75;
+
 	border: 1px solid gray;
 	border-radius: 10px;
 }

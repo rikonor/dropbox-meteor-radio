@@ -19,6 +19,7 @@ Meteor.startup(function() {
 
   player = new Player(document.getElementById('audio'));
 
+  // load next song
   loadNext = function() {
     Session.set("currentSrc", player.getRandomSong().path);
   };
@@ -34,11 +35,12 @@ Meteor.startup(function() {
           console.log("Songs collection ready, loading next song.");
           Meteor.setTimeout(loadNext, 500);
       }
-    }
+    };
     check();
   };
   checkLoadedSongs();
 
+  // Continuous Playback
   player.audioElement.onended = loadNext;
 });
 
@@ -58,16 +60,8 @@ Meteor.autorun(function() {
 //-- player --
 //------------
 
-
-var checkOnlineStatus = function() {
-
-  return false;
-  return true;
-};
-
+// Set current song
 var refreshState = function(currentSrc) {
-  // State includes online status, currentsrc
-  // Set Online Status, Set currentSrc
   if (!Meteor.user()) {
     return false;
   }
@@ -111,7 +105,7 @@ Template.userlist.helpers({
 
 Template.user.helpers({
   online: function() {
-    return this.status.online;
+    return this.status && this.status.online;
   },
   email: function() {
     return this.emails[0].address || "N/A";
