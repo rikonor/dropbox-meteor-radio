@@ -36,8 +36,15 @@
   <div id="user-list" class="well">
     <h4>Users</h4>
     {{#each users}}
-      <div class="user">{{email}}</div>
+      {{> user }}
     {{/each}}
+  </div>
+</template>
+
+<template name="user">
+  <div class="user">
+    <div class="user-email">{{username}}</div>
+    <div class="user-current">&#9658; {{listeningTo}}</div>
   </div>
 </template>
 
@@ -45,115 +52,4 @@
   <div id="noisywavebg">
     <canvas id="seen-canvas"></canvas>
   </div>
-</template>
-
-
-<!-- Login Stuff -->
-
-<template name="loginButtons">
-  <div class="navbar-brand" id="loginButtons">
-    {{#if currentUser}}
-      <span>{{#with currentUser}}{{ email }}{{/with}}</span>
-      / <a id="logoutButton">Logout</a>
-    {{else}}
-      <a id="registerButton">Create User</a>
-      / <a id="loginButton">Login</a>
-    {{/if}}
-  </div>
-</template>
-
-<template name="loginWindow">
-    {{#if showLoginWindow}}
-      <div id="loginWindow" class="centered">
-        {{#if showLogin}}
-          {{> login }}
-        {{/if}}
-        {{#if showRegister}}
-          {{> register }}
-        {{/if}}
-        {{#if showPasswordRecovery}}
-          {{> passwordRecovery }}
-        {{/if}}
-      </div>
-    {{/if}}
-</template>
-
-<!-- login -->
-<template name="login">
-  <form role="form" class="form-horizontal" id="login-form" action="action">
-    <div class="form-group">
-      <label for="login-email" class="col-sm-2 control-label">Email</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="login-email" placeholder="Email">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="login-password" class="col-sm-2 control-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="login-password" placeholder="Password">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default" id="login-button">Sign in</button>
-      </div>
-    </div>
-  </form>
-</template>
-
-<!-- register -->
-<template name="register">
-  <form role="form" class="form-horizontal" id="register-form" action="action">
-    <div class="form-group">
-      <label for="account-email" class="col-sm-2 control-label">Email</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="account-email" placeholder="Email">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="account-password" class="col-sm-2 control-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="account-password" placeholder="Password">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default" id="create-button">Create an Account</button>
-      </div>
-    </div>
-  </form>
-</template>
-
-<!-- recover -->
-<!-- NOT IMPLEMENTED YET -->
-<template name="passwordRecovery">
-  {{#if resetPassword}}
-    <form role="form" class="form-horizontal" id="new-password" action="action">
-      <div class="form-group">
-        <label for="new-password-password" class="col-sm-2 control-label">New password</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="new-password-password" placeholder="New password">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default" id="login-button">Change password</button>
-        </div>
-      </div>
-    </form>
-  {{else}}
-    <form role="form" class="form-horizontal" id="recovery-form" action="action">
-      <div class="form-group">
-        <label for="recovery-email" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="recovery-email" placeholder="Email">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default">Send Reset Instructions</button>
-        </div>
-      </div>
-    </form>
-  {{/if}}
 </template>

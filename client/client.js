@@ -25,14 +25,17 @@ Meteor.startup(function() {
 
   var checkLoadedSongs = function() {
     console.log("Checking if songs collection is ready...");
-    if (!Session.get('songs_loaded')) {
+    var check = function() {
+      if (!Session.get('songs_loaded')) {
         console.log("Still not ready, checking again in 1s.");
-        Meteor.setTimeout(checkLoadedSongs, 1000);
+        Meteor.setTimeout(check, 1000);
+      }
+      else {
+          console.log("Songs collection ready, loading next song.");
+          Meteor.setTimeout(loadNext, 500);
+      }
     }
-    else {
-        console.log("Songs collection ready, loading next song.");
-        Meteor.setTimeout(loadNext, 500);
-    }
+    check();
   };
   checkLoadedSongs();
 
@@ -55,8 +58,23 @@ Meteor.autorun(function() {
 //-- player --
 //------------
 
-var setUserState = function(currentSrc) {
 
+var checkOnlineStatus = function() {
+
+  return false;
+  return true;
+};
+
+var refreshState = function(currentSrc) {
+  // State includes online status, currentsrc
+  // Set Online Status, Set currentSrc
+  if (!Meteor.user()) {
+    return false;
+  }
+  var currentSrc = player.getCurrentSrc();
+  Meteor.users.update({_id: Meteor.userId()}, {$set:{"state.currentsrc": currentSrc}});
+  console.info("Now listening to ", SongUtils.getSongName(currentSrc));
+  return true;
 };
 
 Template.player.events({
@@ -64,9 +82,7 @@ Template.player.events({
     player.setVolume(e.target.value / 100);
   },
   'play audio': function(e) {
-    var currentSrc = player.getCurrentSrc();
-    Meteor.users.update({_id: Meteor.userId()}, {$set:{"state.currentsrc": currentSrc}});
-    console.log("Now listening to ", SongUtils.getSongName(currentSrc));
+    refreshState();
   }
 });
 
@@ -86,9 +102,28 @@ Template.player.helpers({
 Template.userlist.helpers({
   users: function() {
     return Meteor.users.find().fetch();
-  },
+  }
+});
+
+//-----------
+//-- user ---
+//-----------
+
+Template.user.helpers({
+  // username: function() {
+  //   return this.username || "N/A";
+  // },
   email: function() {
     return this.emails[0].address || "N/A";
+  },
+  listeningTo: function() {
+    var currentSrc = this.state && this.state.currentsrc;
+    if (!currentSrc) {
+      return "N/A";
+    }
+    else {
+      return SongUtils.getSongName(currentSrc);
+    }
   }
 });
 
@@ -179,6 +214,7 @@ Template.login.events({
         // login attempt has failed.
       } else {
         Session.set("showLoginWindow", false);
+        refreshState();
         // The user has been logged in.
       }
     });
@@ -190,6 +226,7 @@ Template.register.events({
   'submit #register-form' : function(e, t) {
     e.preventDefault();
     // var name     = t.find('#login-name').value;
+    var username = t.find("#account-username").value;
     var email = t.find('#account-email').value;
     var password = t.find('#account-password').value;
 
@@ -200,6 +237,7 @@ Template.register.events({
     }
 
     Accounts.createUser({
+      username: username,
       email: email,
       password : password
     }, function(err){
@@ -207,6 +245,7 @@ Template.register.events({
         // Inform the user that account creation failed
       } else {
         Session.set("showLoginWindow", false);
+        refreshState();
         // Success. Account has been created and the user
         // has logged in successfully.
       }
