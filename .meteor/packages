@@ -10,3 +10,5 @@ mizzao:bootstrap-3
 coffeescript
 accounts-base
 accounts-password
+mizzao:user-status
+

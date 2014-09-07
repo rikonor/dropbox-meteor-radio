@@ -72,7 +72,7 @@ var refreshState = function(currentSrc) {
     return false;
   }
   var currentSrc = player.getCurrentSrc();
-  Meteor.users.update({_id: Meteor.userId()}, {$set:{"state.currentsrc": currentSrc}});
+  Meteor.users.update({_id: Meteor.userId()}, {$set:{"status.currentsrc": currentSrc}});
   console.info("Now listening to ", SongUtils.getSongName(currentSrc));
   return true;
 };
@@ -110,14 +110,14 @@ Template.userlist.helpers({
 //-----------
 
 Template.user.helpers({
-  // username: function() {
-  //   return this.username || "N/A";
-  // },
+  online: function() {
+    return this.status.online;
+  },
   email: function() {
     return this.emails[0].address || "N/A";
   },
   listeningTo: function() {
-    var currentSrc = this.state && this.state.currentsrc;
+    var currentSrc = this.status && this.status.currentsrc;
     if (!currentSrc) {
       return "N/A";
     }
