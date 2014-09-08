@@ -1,19 +1,15 @@
 // Utils
 
 defaultDropboxCreds = {
-  key: "hmszotb9dwz2cpz",
-  secret: "0oktwgqm6kjpa1o",
   token: "95pyx-gDahwAAAAAAAAFnN97dL-iHLkUWzH8AzgequGcrUcf5L7HttopEyNrpcnx"
 };
 
 DropboxUtils = {
-  createClient: function(key, secret, token) {
-    if (key === "" || secret === "" || token === "") {
+  createClient: function(token) {
+    if (token === "") {
       return undefined;
     }
     var client = new Dropbox.Client({
-      key: key,
-      secret: secret,
       sandbox: false,
       token: token
     });

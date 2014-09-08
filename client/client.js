@@ -258,12 +258,6 @@ Template.register.events({
 });
 
 Template.profile.helpers({
-  dropboxkey: function() {
-    return Meteor.user().services.dropbox.key;
-  },
-  dropboxsecret: function() {
-    return Meteor.user().services.dropbox.secret;
-  },
   dropboxtoken: function() {
     return Meteor.user().services.dropbox.token;
   }
@@ -272,16 +266,12 @@ Template.profile.helpers({
 Template.profile.events({
   'submit #profile-form' : function(e, t) {
     e.preventDefault();
-    var dropboxkey = t.find("#account-dropboxkey").value;
-    var dropboxsecret = t.find('#account-dropboxsecret').value;
     var dropboxtoken = t.find('#account-dropboxtoken').value;
 
     // Update the user with dropbox information
     Meteor.users.update(
       {_id: Meteor.userId()},
       {$set: {
-        "services.dropbox.key": dropboxkey,
-        "services.dropbox.secret": dropboxsecret,
         "services.dropbox.token": dropboxtoken
       }});
 

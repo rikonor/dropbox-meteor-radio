@@ -50,7 +50,7 @@ var updateSongsCollection = function() {
   var dropboxCreds = collectDropboxCreds();
 
   dropboxCreds.forEach(function(cred) {
-    var client = DropboxUtils.createClient(cred.key, cred.secret, cred.token);
+    var client = DropboxUtils.createClient(cred.token);
     if (client === undefined) {
       console.log("Improper credentials: ", cred.username);
       return;
