@@ -259,7 +259,8 @@ Template.register.events({
 
 Template.profile.helpers({
   dropboxtoken: function() {
-    return Meteor.user().services.dropbox.token;
+    var user = Meteor.user();
+    return user.services.dropbox && user.services.dropbox.token;
   }
 });
 
@@ -269,11 +270,13 @@ Template.profile.events({
     var dropboxtoken = t.find('#account-dropboxtoken').value;
 
     // Update the user with dropbox information
-    Meteor.users.update(
-      {_id: Meteor.userId()},
-      {$set: {
-        "services.dropbox.token": dropboxtoken
-      }});
+    if (dropboxtoken === "") {
+      // Empty creds should be removed
+      Meteor.users.update({_id: Meteor.userId()},{$unset: {"services.dropbox": ""}});
+    }
+    else {
+      Meteor.users.update({_id: Meteor.userId()},{$set: {"services.dropbox.token": dropboxtoken}});
+    }
 
     Session.set("showLoginWindow", false);
     return false;

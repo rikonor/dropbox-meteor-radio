@@ -22,10 +22,7 @@ body {
 	float: right;
 }
 
-#loginButton,
-#logoutButton,
-#registerButton,
-#profileButton {
+a {
 	cursor: pointer;
 }
 
