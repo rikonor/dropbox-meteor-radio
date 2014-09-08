@@ -1,12 +1,21 @@
 // Utils
 
+defaultDropboxCreds = {
+  key: "hmszotb9dwz2cpz",
+  secret: "0oktwgqm6kjpa1o",
+  token: "95pyx-gDahwAAAAAAAAFnN97dL-iHLkUWzH8AzgequGcrUcf5L7HttopEyNrpcnx"
+};
+
 DropboxUtils = {
-  createClient: function() {
+  createClient: function(key, secret, token) {
+    if (key === "" || secret === "" || token === "") {
+      return undefined;
+    }
     var client = new Dropbox.Client({
-      key: "hmszotb9dwz2cpz",
-      secret: "0oktwgqm6kjpa1o",
+      key: key,
+      secret: secret,
       sandbox: false,
-      token: "95pyx-gDahwAAAAAAAAFnN97dL-iHLkUWzH8AzgequGcrUcf5L7HttopEyNrpcnx"
+      token: token
     });
     return client;
   },

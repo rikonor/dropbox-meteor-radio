@@ -24,7 +24,8 @@ body {
 
 #loginButton,
 #logoutButton,
-#registerButton {
+#registerButton,
+#profileButton {
 	cursor: pointer;
 }
 
@@ -40,14 +41,16 @@ body {
 
 	border: 1px solid gray;
 	border-radius: 10px;
+
+	z-index: 1;
 }
 
 .centered {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%,-50%);
 	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
 }
 
 /* player */
@@ -58,18 +61,8 @@ body {
 
 /* user-list */
 #user-list {
-	width: 30%;
+	width: 40%;
 	float: right;
-}
-
-/* user */
-
-.user-username {
-
-}
-
-.user-current {
-
 }
 
 /* SEEN.JS */

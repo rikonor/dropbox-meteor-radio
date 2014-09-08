@@ -26,27 +26,51 @@ var insertSongs = function(paths) {
   }
 };
 
+var collectDropboxCreds = function() {
+  var dropboxCreds = [];
+
+  users = Meteor.users.find({'services.dropbox': {$exists: 1}}).fetch();
+  users.forEach(function(user) {
+    var cred = user.services.dropbox;
+    cred.username = user.username;
+    dropboxCreds.push(cred);
+  });
+
+  if (dropboxCreds.length === 0) {
+    dropboxCreds.push(defaultDropboxCreds);
+  }
+  return dropboxCreds;
+};
+
 var updateSongsCollection = function() {
   console.log("Updating the songs collection.");
 
   Songs.remove({});
 
-  var client = DropboxUtils.createClient();
-  DropboxUtils.getRootContent(client, Meteor.bindEnvironment(function(err, data) {
-    if (err) { return console.log(err); }
-    if (!data || data.length === 0) {
-      return console.log("Root folder is empty.");
+  var dropboxCreds = collectDropboxCreds();
+
+  dropboxCreds.forEach(function(cred) {
+    var client = DropboxUtils.createClient(cred.key, cred.secret, cred.token);
+    if (client === undefined) {
+      console.log("Improper credentials: ", cred.username);
+      return;
     }
-    DropboxUtils.mediaLinks(client, data, Meteor.bindEnvironment(function(err, data) {
+    DropboxUtils.getRootContent(client, Meteor.bindEnvironment(function(err, data) {
       if (err) { return console.log(err); }
       if (!data || data.length === 0) {
-        return console.log("Failed to get media links.");
+        return console.log("Root folder is empty.");
       }
-      console.log("Found", data.length, "songs. Inserting now.");
-      insertSongs(data);
-      return data.length;
+      DropboxUtils.mediaLinks(client, data, Meteor.bindEnvironment(function(err, data) {
+        if (err) { return console.log(err); }
+        if (!data || data.length === 0) {
+          return console.log("Failed to get media links.");
+        }
+        console.log("Found", data.length, "songs. Inserting now (" + cred.username + ")");
+        insertSongs(data);
+        return data.length;
+      }));
     }));
-  }));
+  });
 };
 
 Meteor.methods({

@@ -33,7 +33,7 @@ Meteor.startup(function() {
       }
       else {
           console.log("Songs collection ready, loading next song.");
-          Meteor.setTimeout(loadNext, 500);
+          Meteor.setTimeout(loadNext, 1000);
       }
     };
     check();
@@ -148,7 +148,14 @@ Template.loginButtons.events({
     } else {
       Session.set("showLoginWindow", false);
     }
-  }
+  },
+  'click #profileButton': function() {
+    if (Session.get("showLoginWindow") !== "profile") {
+      Session.set("showLoginWindow", "profile");
+    } else {
+      Session.set("showLoginWindow", false);
+    }
+  },
 });
 
 Template.loginWindow.helpers({
@@ -159,10 +166,13 @@ Template.loginWindow.helpers({
     return Session.get("showLoginWindow") === "login";
   },
   showRegister: function() {
-    return Session.get("showLoginWindow") === "register"
+    return Session.get("showLoginWindow") === "register";
   },
   showPasswordRecovery: function() {
-    return Session.get("showLoginWindow") === "passwordrecovery"
+    return Session.get("showLoginWindow") === "passwordrecovery";
+  },
+  showProfile: function() {
+    return Session.get("showLoginWindow") === "profile";
   }
 });
 
@@ -219,7 +229,6 @@ Template.login.events({
 Template.register.events({
   'submit #register-form' : function(e, t) {
     e.preventDefault();
-    // var name     = t.find('#login-name').value;
     var username = t.find("#account-username").value;
     var email = t.find('#account-email').value;
     var password = t.find('#account-password').value;
@@ -244,6 +253,39 @@ Template.register.events({
         // has logged in successfully.
       }
     });
+    return false;
+  }
+});
+
+Template.profile.helpers({
+  dropboxkey: function() {
+    return Meteor.user().services.dropbox.key;
+  },
+  dropboxsecret: function() {
+    return Meteor.user().services.dropbox.secret;
+  },
+  dropboxtoken: function() {
+    return Meteor.user().services.dropbox.token;
+  }
+});
+
+Template.profile.events({
+  'submit #profile-form' : function(e, t) {
+    e.preventDefault();
+    var dropboxkey = t.find("#account-dropboxkey").value;
+    var dropboxsecret = t.find('#account-dropboxsecret').value;
+    var dropboxtoken = t.find('#account-dropboxtoken').value;
+
+    // Update the user with dropbox information
+    Meteor.users.update(
+      {_id: Meteor.userId()},
+      {$set: {
+        "services.dropbox.key": dropboxkey,
+        "services.dropbox.secret": dropboxsecret,
+        "services.dropbox.token": dropboxtoken
+      }});
+
+    Session.set("showLoginWindow", false);
     return false;
   }
 });
