@@ -162,6 +162,9 @@ Template.profile.events({
     else {
       Meteor.users.update({_id: Meteor.userId()},{$set: {"services.dropbox.token": dropboxtoken}});
       Session.set('displayMessage', "Update & Set dropbox information");
+
+      // update songs collection on the server
+      Meteor.call("updateSongsCollection");
     }
 
     Session.set("showLoginWindow", false);
