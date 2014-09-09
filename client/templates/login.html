@@ -14,21 +14,19 @@
 
 <template name="loginWindow">
     {{#if showLoginWindow}}
-    <div>
-      <div id="loginWindow" class="centered">
-        {{#if showLogin}}
-          {{> login }}
-        {{/if}}
-        {{#if showRegister}}
-          {{> register }}
-        {{/if}}
-        {{#if showPasswordRecovery}}
-          {{> passwordRecovery }}
-        {{/if}}
-        {{#if showProfile}}
-          {{> profile }}
-        {{/if}}
-      </div>
+    <div id="loginWindow" class="centered well">
+      {{#if showLogin}}
+        {{> login }}
+      {{/if}}
+      {{#if showRegister}}
+        {{> register }}
+      {{/if}}
+      {{#if showPasswordRecovery}}
+        {{> passwordRecovery }}
+      {{/if}}
+      {{#if showProfile}}
+        {{> profile }}
+      {{/if}}
     </div>
     {{/if}}
 </template>

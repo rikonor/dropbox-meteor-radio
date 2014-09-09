@@ -1,6 +1,6 @@
-//-----------------
-//-- Collections --
-//-----------------
+//-----------------//
+//-- Collections --//
+//-----------------//
 
 Meteor.subscribe('songs', function() {
     Session.set('songs_loaded', true);
@@ -8,9 +8,9 @@ Meteor.subscribe('songs', function() {
 
 Meteor.subscribe('users');
 
-//------------
-//-- client --
-//------------
+//------------//
+//-- client --//
+//------------//
 
 Meteor.startup(function() {
    if (Accounts._resetPasswordToken) {
@@ -49,16 +49,14 @@ Meteor.autorun(function() {
   var message = Session.get('displayMessage');
   if (message) {
     var stringArray = message.split('&');
-    ui.notify(stringArray[0], stringArray[1])
-      .effect('slide')
-      .closable();
+    ui.notify(stringArray[0], stringArray[1]);
     Session.set('displayMessage', null);
   }
 });
 
-//------------
-//-- player --
-//------------
+//------------//
+//-- player --//
+//------------//
 
 // Set current song
 var refreshState = function(currentSrc) {
@@ -89,9 +87,9 @@ Template.player.helpers({
   }
 });
 
-//--------------
-//-- userlist --
-//--------------
+//--------------//
+//-- userlist --//
+//--------------//
 
 Template.userlist.helpers({
   users: function() {
@@ -99,9 +97,9 @@ Template.userlist.helpers({
   }
 });
 
-//-----------
-//-- user ---
-//-----------
+//-----------//
+//-- user ---//
+//-----------//
 
 Template.user.helpers({
   online: function() {
@@ -121,206 +119,13 @@ Template.user.helpers({
   }
 });
 
-//-----------
-//-- login --
-//-----------
+//---------------------------//
+//-- connection indicator ---//
+//---------------------------//
 
-Template.loginButtons.helpers({
-  email: function() {
-    return this.emails[0].address;
-  }
-});
-
-Template.loginButtons.events({
-  'click #loginButton': function() {
-    if (Session.get("showLoginWindow") !== "login") {
-      Session.set("showLoginWindow", "login");
-    } else {
-      Session.set("showLoginWindow", false);
-    }
-  },
-  'click #logoutButton': function() {
-    Meteor.logout();
-  },
-  'click #registerButton': function() {
-    if (Session.get("showLoginWindow") !== "register") {
-      Session.set("showLoginWindow", "register");
-    } else {
-      Session.set("showLoginWindow", false);
-    }
-  },
-  'click #profileButton': function() {
-    if (Session.get("showLoginWindow") !== "profile") {
-      Session.set("showLoginWindow", "profile");
-    } else {
-      Session.set("showLoginWindow", false);
-    }
-  },
-});
-
-Template.loginWindow.helpers({
-  showLoginWindow: function() {
-    return Session.get("showLoginWindow");
-  },
-  showLogin: function() {
-    return Session.get("showLoginWindow") === "login";
-  },
-  showRegister: function() {
-    return Session.get("showLoginWindow") === "register";
-  },
-  showPasswordRecovery: function() {
-    return Session.get("showLoginWindow") === "passwordrecovery";
-  },
-  showProfile: function() {
-    return Session.get("showLoginWindow") === "profile";
-  }
-});
-
-// Validations
-
-var trimInput = function(val) {
-  return val.replace(/^\s*|\s*$/g, "");
-};
-
-var isNotEmpty = function(val) {
-  return val && val.length >= 0;
-};
-
-var isEmail = function(val) {
-  // need to find email regex
-  return true;
-};
-
-var isValidPassword = function(val, field) {
-  if (val.length >= 6) {
-    return true;
-  } else {
-    Session.set('displayMessage', 'Error & Too short.');
-    return false;
-  }
-};
-
-Template.login.events({
-  'submit #login-form' : function(e, t){
-    e.preventDefault();
-    var email    = t.find('#login-email').value;
-    var password = t.find('#login-password').value;
-
-    // Trim and validate your fields here....
-    email = trimInput(email);
-
-    // If validation passes, supply the appropriate fields to the
-    // Meteor.loginWithPassword() function.
-    Meteor.loginWithPassword(email, password, function(err) {
-      if (err) {
-        // The user might not have been found, or their passwword
-        // could be incorrect. Inform the user that their
-        // login attempt has failed.
-      } else {
-        Session.set("showLoginWindow", false);
-        refreshState();
-        // The user has been logged in.
-      }
-    });
-    return false;
-  }
-});
-
-Template.register.events({
-  'submit #register-form' : function(e, t) {
-    e.preventDefault();
-    var username = t.find("#account-username").value;
-    var email = t.find('#account-email').value;
-    var password = t.find('#account-password').value;
-
-    // Trim and validate the input
-    email = trimInput(email);
-    if (!isValidPassword(password)) {
-      return false;
-    }
-
-    Accounts.createUser({
-      username: username,
-      email: email,
-      password : password
-    }, function(err){
-      if (err) {
-        // Inform the user that account creation failed
-      } else {
-        Session.set("showLoginWindow", false);
-        refreshState();
-        // Success. Account has been created and the user
-        // has logged in successfully.
-      }
-    });
-    return false;
-  }
-});
-
-Template.profile.helpers({
-  dropboxtoken: function() {
-    var user = Meteor.user();
-    return user.services.dropbox && user.services.dropbox.token;
-  }
-});
-
-Template.profile.events({
-  'submit #profile-form' : function(e, t) {
-    e.preventDefault();
-    var dropboxtoken = t.find('#account-dropboxtoken').value;
-
-    // Update the user with dropbox information
-    if (dropboxtoken === "") {
-      // Empty creds should be removed
-      Meteor.users.update({_id: Meteor.userId()},{$unset: {"services.dropbox": ""}});
-    }
-    else {
-      Meteor.users.update({_id: Meteor.userId()},{$set: {"services.dropbox.token": dropboxtoken}});
-    }
-
-    Session.set("showLoginWindow", false);
-    return false;
-  }
-});
-
-Template.passwordRecovery.helpers({
-  resetPassword : function(t) {
-    return Session.get('resetPassword');
-  }
-});
-
-Template.passwordRecovery.events({
-  'submit #recovery-form' : function(e, t) {
-    e.preventDefault();
-    var email = trimInput(t.find('#recovery-email').value);
-
-    if (isNotEmpty(email) && isEmail(email)) {
-      Session.set('loading', true);
-      Accounts.forgotPassword({email: email}, function(err) {
-        if (err)
-          Session.set('displayMessage', 'Password Reset Error & Doh');
-        else {
-          Session.set('displayMessage', 'Email Sent & Please check your email.');
-        }
-        Session.set('loading', false);
-      });
-    }
-    return false;
-  },
-  'submit #new-password' : function(e, t) {
-    e.preventDefault();
-    var pw = t.find('#new-password-password').value;
-    if (isNotEmpty(pw) && isValidPassword(pw)) {
-      Session.set('loading', true);
-      Accounts.resetPassword(Session.get('resetPassword'), pw, function(err){
-        if (err)
-          Session.set('displayMessage', 'Password Reset Error & Sorry');
-        else {
-          Session.set('resetPassword', null);
-        }
-        Session.set('loading', false);
-      });
-    }
-  return false;
+Template.connection_indicator.helpers({
+  connection_status: function() {
+    var status = Meteor.connection.status();
+    return status.connected ? "Connected" : "Disconnected";
   }
 });

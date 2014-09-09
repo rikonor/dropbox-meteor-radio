@@ -10,6 +10,7 @@
     {{> player }}
     {{> userlist }}
   </div>
+  {{> connection_indicator }}
 </body>
 
 <template name="navbar">
@@ -52,5 +53,11 @@
 <template name="noisywavebg">
   <div id="noisywavebg">
     <canvas id="seen-canvas"></canvas>
+  </div>
+</template>
+
+<template name="connection_indicator">
+  <div id="connection-indicator">
+    {{connection_status}}
   </div>
 </template>
