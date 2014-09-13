@@ -6,7 +6,7 @@ SongUtils = {
     else {
       var pathParts = filename.split("/"),
           path = pathParts[pathParts.length-1],
-          name = decodeURI(path).replace(".mp3", "");
+          name = decodeURI(path).replace(".mp3", "").replace(".m4a", "");
       return name;
     }
   }
