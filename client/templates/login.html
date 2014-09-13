@@ -15,18 +15,7 @@
 <template name="loginWindow">
     {{#if showLoginWindow}}
     <div id="loginWindow" class="centered well">
-      {{#if showLogin}}
-        {{> login }}
-      {{/if}}
-      {{#if showRegister}}
-        {{> register }}
-      {{/if}}
-      {{#if showPasswordRecovery}}
-        {{> passwordRecovery }}
-      {{/if}}
-      {{#if showProfile}}
-        {{> profile }}
-      {{/if}}
+      {{> loginWindowTemplate }}
     </div>
     {{/if}}
 </template>

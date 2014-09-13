@@ -39,18 +39,9 @@ Template.loginWindow.helpers({
   showLoginWindow: function() {
     return Session.get("showLoginWindow");
   },
-  showLogin: function() {
-    return Session.get("showLoginWindow") === "login";
+  loginWindowTemplate: function() {
+    return Template[Session.get("showLoginWindow")];
   },
-  showRegister: function() {
-    return Session.get("showLoginWindow") === "register";
-  },
-  showPasswordRecovery: function() {
-    return Session.get("showLoginWindow") === "passwordrecovery";
-  },
-  showProfile: function() {
-    return Session.get("showLoginWindow") === "profile";
-  }
 });
 
 //-----------//
