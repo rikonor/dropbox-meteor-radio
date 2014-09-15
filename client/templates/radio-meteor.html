@@ -4,13 +4,13 @@
 
 <body>
   {{> loginWindow }}
-  {{> noisywavebg }}
   <div class="container" id="outer-container">
     {{> navbar }}
     {{> player }}
     {{> userlist }}
   </div>
   {{> connection_indicator }}
+  {{> effect }}
 </body>
 
 <template name="navbar">
@@ -50,10 +50,8 @@
   </div>
 </template>
 
-<template name="noisywavebg">
-  <div id="noisywavebg">
-    <canvas id="seen-canvas"></canvas>
-  </div>
+<template name="effect">
+  <div class="effect-container"></div>
 </template>
 
 <template name="connection_indicator">

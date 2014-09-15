@@ -10,6 +10,12 @@ body {
 
 .navbar, .well {
 	opacity: 0.75;
+	transition: opacity 0.5s ease;
+}
+
+.navbar:hover, .well:hover {
+	opacity: 0.85;
+	transition: opacity 0.5s ease;
 }
 
 .navbar-header {
@@ -32,12 +38,16 @@ a {
 	padding: 15px;
 	max-width: 480px;
 	margin: auto;
+	border-radius: 10px;
+	z-index: 1;
 
 	opacity: 0.75;
+	transition: opacity 0.5s ease;
+}
 
-	border-radius: 10px;
-
-	z-index: 1;
+#loginWindow:hover {
+	opacity: 0.85;
+	transition: opacity 0.5s ease;
 }
 
 .centered {
@@ -67,12 +77,31 @@ a {
 	left: 0px;
 }
 
-/* SEEN.JS */
-#noisywavebg {
-	position: absolute;
+/* effects */
+.effect-container {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
 	z-index: -1;
 }
 
-canvas {
-	display: block;
+/* colorgrid */
+
+body {
+	background-color: rgba(50, 50, 50, 1);
+}
+
+.effect-container {
+	margin-left: 3px;
+	opacity: 0.8;
+}
+
+.box {
+    margin: 0px;
+	padding: 0px;
+	float: left;
+	transition: background-color 1000ms linear;
+	box-shadow: inset 0px 0px 1px 1px rgba(50, 50, 50, 1);
 }

@@ -129,3 +129,11 @@ Template.connection_indicator.helpers({
     return status.connected ? "Connected" : "Disconnected";
   }
 });
+
+//--------------//
+//-- effects ---//
+//--------------//
+
+Template.effect.rendered = function() {
+  activateEffect();
+};
